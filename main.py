@@ -1,17 +1,14 @@
+from map import GameMap, FLOOR
 from display import Display
-from input import Input
+
+
 
 d = Display()
-d.draw_glyph(5,3,"@", "#ffffff")
-d.draw_glyph(6,3,"g", "#40c040")
+m = GameMap(d.cols,d.rows)
 
+m.set(10,5,FLOOR)
+m.set(11,5,FLOOR)
+m.set(12,5,FLOOR)
 
-for x in range(d.cols):
-    d.draw_glyph(x, 0, "#", "#4a4a52")
+m.draw(d)
 d.render()
-
-def handle_action(action):
-    print("action: ", action)
-
-game_input =Input(handle_action)
-
