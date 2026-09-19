@@ -10,5 +10,8 @@ for x in range(d.cols):
     d.draw_glyph(x, 0, "#", "#4a4a52")
 d.render()
 
-game_input =Input()
+def handle_action(action):
+    print("action: ", action)
+
+game_input =Input(handle_action)
 
