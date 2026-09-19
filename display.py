@@ -26,6 +26,10 @@ class Display:
 
 
         self.buffer = []
+
+        self.ctx.font = "{}px monospace".format(int(cell_h*0.9))
+        self.ctx.textBaseline = "top"
+        self.ctx.textAlign = "left"
         for _ in range(cols * rows):
             self.buffer.append({"ch": " ", "fg": fg,"bg":bg})
     def index(self, x, y):
@@ -48,4 +52,17 @@ class Display:
         cell["fg"] = fg or self.fg
         cell["bg"] = bg or self.bg
         
+    def render(self):
+        ctx = self.ctx
+        for y in range(self.rows):
+            for x in range(self.cols):
+                cell = self.buffer[self.index(x,y)]
+                px = x * self.cell_w
+                py = y * self.cell_h
+                ctx.fillStyle = cell["bg"]
+                ctx.fillRect(px,py, self.cell_w, self.cell_h)
+                if cell["ch"] != " ":
+                    ctx.fillStyle = cell["fg"]
+                    ctx.fillText(cell["ch"],px,py)
+
         
