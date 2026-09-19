@@ -1,7 +1,10 @@
 from display import Display
 
 d = Display()
-d.ctx.fillStyle = d.bg
-d.ctx.fillRect(0,0, d.canvas.width, d.canvas.height)
-d.ctx.fillStyle = "#3a7bd5"
-d.ctx.fillRect(50,50,200,120)
+d.draw_glyph(5,3,"@", "#ffffff")
+d.draw_glyph(6,3,"g", "#40c040")
+
+print(d.buffer[d.index(5,3)])
+print(d.buffer[d.index(6,3)])
+print("out of bounds ok: ", d.draw_glyph(999,999, "x"))
+

@@ -1,13 +1,20 @@
 from browser import document, window
 
 class Display:
-    def __init__(self, width=800, height=600, bg="#101014"):
+    def __init__(self, cols=80, rows=40, cell_w=12, cell_h=20, bg="#101014", fg="#c8c8c8"):
+
+        self.cols = cols
+        self.rows = rows
+        self.cell_w = cell_w
+        self.cell_h = cell_h
         self.bg =bg
+        self.fg = fg
 
         self.canvas = document.createElement("canvas")
-        self.canvas.width = width
-        self.canvas.height = height
+        self.canvas.width = cols * cell_w
+        self.canvas.height = rows * cell_h
         self.ctx = self.canvas.getContext("2d")
+        self.canvas.style.background = bg
 
         body = document.body
         body.style.margin = "0"
@@ -15,5 +22,30 @@ class Display:
         body.style.display = "grid"
         body.style.placeItems = "center"
         body.style.minHeight = "100vh"
-
         document.body.appendChild(self.canvas)
+
+
+        self.buffer = []
+        for _ in range(cols * rows):
+            self.buffer.append({"ch": " ", "fg": fg,"bg":bg})
+    def index(self, x, y):
+        return y * self.cols + x
+
+    def in_bounds(self, x, y):
+        return 0 <= x < self.cols and 0 <= y < self.rows
+
+    def clear(self):
+        for cell in self.buffer:
+            cell["ch"] = " "
+            cell["fg"] = self.fg
+            cell["bg"] = self.bg
+
+    def draw_glyph(self, x, y, ch, fg=None, bg=None):
+        if not self.in_bounds(x,y):
+            return
+        cell = self.buffer[self.index(x,y)]
+        cell["ch"] = ch
+        cell["fg"] = fg or self.fg
+        cell["bg"] = bg or self.bg
+        
+        
