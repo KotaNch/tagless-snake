@@ -57,12 +57,19 @@ class Display:
         self.cell_w = cell_w
         self.cell_h = cell_h
         self.bg =bg
-        self.fg = fg
+        self.fg = 
+        
+        dpr = window.devicePixelRatio or 1
+        css_w = cols * cell_w
+        css_h = rows * cell_h
 
         self.canvas = document.createElement("canvas")
-        self.canvas.width = cols * cell_w
-        self.canvas.height = rows * cell_h
+        self.canvas.width = int(css_w * dpr)
+        self.canvas.height = int(css_h * dpr)
+        self.canvas.style.width = "{}px".format(css_w)
+        self.canvas.style.height = "{}px".format(css_h)
         self.ctx = self.canvas.getContext("2d")
+        self.ctx.scale(dpr,dpr)
         self.canvas.style.background = bg
 
         body = document.body
