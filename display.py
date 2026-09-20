@@ -1,7 +1,7 @@
-from browser import document
+from browser import document, window
 import math
 
-
+print("dpr:", window.devicePixelRatio)
 def shape_block(ctx,px,py,w,h,color):
     ctx.fillStyle =color
     ctx.fillRect(px,py,w,h)
@@ -57,7 +57,7 @@ class Display:
         self.cell_w = cell_w
         self.cell_h = cell_h
         self.bg =bg
-        self.fg = 
+        self.fg = fg
         
         dpr = window.devicePixelRatio or 1
         css_w = cols * cell_w
@@ -71,6 +71,8 @@ class Display:
         self.ctx = self.canvas.getContext("2d")
         self.ctx.scale(dpr,dpr)
         self.canvas.style.background = bg
+        self.canvas.style.imageRendering = "pixelated"
+        self.ctx.imageSmoothingEnabled = False
 
         body = document.body
         body.style.margin = "0"
