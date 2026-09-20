@@ -1,13 +1,16 @@
 
 from display import Display
+from map import GameMap, FLOOR
 
 
 
 d = Display()
+m = GameMap(d.cols, d.rows)
 
-d.draw_cell(5,3,"block", "#585858")
-d.draw_cell(7,3, "circle", "#e0c060")
-d.draw_cell(9, 3, "diamond", "#3a7bd5")
-d.draw_cell(11, 3, "triangle", "#40c040")
-d.draw_cell(13, 3, "dot", "#c04040")
+m.set(10,5, FLOOR)
+m.set(11,5, FLOOR)
+m.set(12,5, FLOOR)
+
+
+m.draw(d)
 d.render()

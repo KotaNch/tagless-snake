@@ -1,9 +1,9 @@
 WALL = 0
 FLOOR = 1
 
-TILE_GLYPH = {
-    WALL: ("#", "#585858"),
-    FLOOR: (".", "#3a3a3a"),
+TILE_SHAPE = {
+    WALL: ("block", "#585858"),
+    FLOOR: ("dot", "#2a2a2a"),
 }
 
 class GameMap:
@@ -30,5 +30,5 @@ class GameMap:
         for y in range(self.height):
             for x in range(self.width):
                 tile = self.tiles[self.index(x,y)]
-                ch, fg = TILE_GLYPH[tile]
-                display.draw_glyph(x,y,ch,fg)
+                shape, color = TILE_SHAPE[tile]
+                display.draw_cell(x,y,shape,color)
