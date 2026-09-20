@@ -1,7 +1,56 @@
-from browser import document, window
+from browser import document
+import math
+
+
+def shape_block(ctx,px,py,w,h,color):
+    ctx.fillStyle =color
+    ctx.fillRect(px,py,w,h)
+
+def shape_circle(ctx,px,py,w,h,color):
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.arc(px +w/2, py +h/2, min(w,h) * 0.4,0,2 * math.pi)
+    ctx.fill()
+
+def shape_diamond(ctx,px,py,w,h,color):
+    cx = px + w /2
+    cy = py +h /2
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.moveTo(cx,py + h * 0.1)
+    ctx.lineTo(px + w * 0.9, cy)
+    ctx.lineTo(cx, py + h * 0.9)
+    ctx.lineTo(px + w * 0.1, cy)
+    ctx.closePath()
+    ctx.fill()
+
+def shape_triangle(ctx, px, py, w, h, color):
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.moveTo(px + w/2, py + h * 0.15)
+    ctx.lineTo(px + w * 0.85, py + h * 0.85)
+    ctx.lineTo(px + w * 0.15, py + h * 0.85)
+    ctx.closePath()
+    ctx.fill()
+
+def shape_dot(ctx, px, py, w, h, color):
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.arc(px + w/2,py + h/2, min(w,h) * 0.14, 0, 2 * math.pi)
+    ctx.fill()
+
+
+SHAPES = {
+    "block": shape_block,
+    "circle": shape_circle,
+    "diamond": shape_diamond,
+    "triangle": shape_triangle,
+    "dot":shape_dot,
+}
+
 
 class Display:
-    def __init__(self, cols=80, rows=40, cell_w=12, cell_h=20, bg="#101014", fg="#c8c8c8"):
+    def __init__(self, cols=80, rows=40, cell_w=16, cell_h=16, bg="#101014", fg="#c8c8c8"):
 
         self.cols = cols
         self.rows = rows
@@ -26,12 +75,8 @@ class Display:
 
 
         self.buffer = []
-
-        self.ctx.font = "{}px monospace".format(int(cell_h*0.9))
-        self.ctx.textBaseline = "top"
-        self.ctx.textAlign = "left"
         for _ in range(cols * rows):
-            self.buffer.append({"ch": " ", "fg": fg,"bg":bg})
+            self.buffer.append({"shape": None, "fg": fg,"bg":bg})
     def index(self, x, y):
         return y * self.cols + x
 
@@ -40,15 +85,15 @@ class Display:
 
     def clear(self):
         for cell in self.buffer:
-            cell["ch"] = " "
+            cell["shape"] = None
             cell["fg"] = self.fg
             cell["bg"] = self.bg
 
-    def draw_glyph(self, x, y, ch, fg=None, bg=None):
+    def draw_cell(self, x, y, shape, fg=None, bg=None):
         if not self.in_bounds(x,y):
             return
         cell = self.buffer[self.index(x,y)]
-        cell["ch"] = ch
+        cell["shape"] = shape
         cell["fg"] = fg or self.fg
         cell["bg"] = bg or self.bg
         
@@ -61,8 +106,7 @@ class Display:
                 py = y * self.cell_h
                 ctx.fillStyle = cell["bg"]
                 ctx.fillRect(px,py, self.cell_w, self.cell_h)
-                if cell["ch"] != " ":
-                    ctx.fillStyle = cell["fg"]
-                    ctx.fillText(cell["ch"],px,py)
-
+                shape = cell["shape"]
+                if shape is not None:
+                    SHAPES[shape](ctx,px,py, self.cell_w, self.cell_h, cell["fg"])
         
