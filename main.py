@@ -1,16 +1,17 @@
+from snake import Snake
 
-from display import Display
-from map import GameMap, FLOOR
+s = Snake(5,5)
+print("start",s.body)
 
+s.step()
+print("after step:", s.body)
 
+s.step(grow =True)
+print("after grow:", s.body)
 
-d = Display()
-m = GameMap(d.cols, d.rows)
+s.set_direction((0,1))
+s.step()
+print("after turn:",s.body)
 
-m.set(10,5, FLOOR)
-m.set(11,5, FLOOR)
-m.set(12,5, FLOOR)
-
-
-m.draw(d)
-d.render()
+s.set_direction((0,-1))
+print("dir after reverce:",s.body)
