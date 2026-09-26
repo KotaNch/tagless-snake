@@ -3,7 +3,7 @@ from display import Display
 from game import Game
 from input import Input
 
-d = Display(cols=32,rows=24,cell_w=20,cell_h=20)
+d = Display(cols=40,rows=30,cell_w=28,cell_h=28)
 
 g = Game(d)
 game_input = Input(g.on_action)

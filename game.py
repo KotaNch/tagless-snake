@@ -45,16 +45,16 @@ class Game:
             fx,fy = self.food
             self.display.draw_cell(fx,fy, "circle", "#ff4040")
         self.display.render()
-        self.display.draw_text_px(10,8, "Score: {}".format(self.score), "#ffffff",24)
+        self.display.draw_text_px(10,8, "Score: {}".format(self.score), "#ffffff",44)
 
         if not self.running:
             cx = self.display.canvas.width /2
             cy = self.display.canvas.height /2
             self.display.draw_overlay("rgba(0,0,0,0.6)")
-            self.display.draw_text_px(cx,cy - 40, "GAME OVER", "#ff4040", 40,center=True)
-            self.display.draw_text_px(cx,cy + 5, "Score: {}".format(self.score),"#ffffff",24, center=True)
-            self.display.draw_text_px(cx, cy +35, "Best: {}".format(self.high_score), "#e0c040", 20, center=True)
-            self.display.draw_text_px(cx,cy + 70, "Press R to restart", "#aaaaaa", 18, center=True)
+            self.display.draw_text_px(cx,cy - 100, "GAME OVER", "#ff4040", 55,center=True)
+            self.display.draw_text_px(cx,cy - 20, "Score: {}".format(self.score),"#ffffff",44, center=True)
+            self.display.draw_text_px(cx, cy +30, "Best: {}".format(self.high_score), "#e0c040", 44, center=True)
+            self.display.draw_text_px(cx,cy + 100, "Press R to restart", "#aaaaaa", 38, center=True)
     def on_action(self, action):
         if action in ACTION_DIR:
             self.snake.set_direction(ACTION_DIR[action])
