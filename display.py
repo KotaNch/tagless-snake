@@ -120,9 +120,13 @@ class Display:
                 if shape is not None:
                     SHAPES[shape](ctx,px,py, self.cell_w, self.cell_h, cell["fg"])
 
-    def draw_text_px(self, px,py, text, color, size=16):
+    def draw_text_px(self, px,py, text, color, size=16, center=False):
         self.ctx.fillStyle = color
         self.ctx.font = "{}px monospace".format(size)
         self.ctx.textBaseline = "top"
-        self.ctx.textAlign = "left"
+        self.ctx.textAlign = "center" if center else "left"
         self.ctx.fillText(text,px,py)
+
+    def draw_overlay(self,color):
+        self.ctx.fillStyle = color
+        self.ctx.fillRect(0,0, self.canvas.width, self.canvas.height)

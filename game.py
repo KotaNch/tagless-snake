@@ -45,6 +45,14 @@ class Game:
             self.display.draw_cell(fx,fy, "circle", "#ff4040")
         self.display.render()
         self.display.draw_text_px(10,8, "Score: {}".format(self.score), "#ffffff",18)
+
+        if not self.running:
+            cx = self.display.canvas.width /2
+            cy = self.display.canvas.height /2
+            self.display.draw_overlay("rgba(0,0,0,0.6)")
+            self.display.draw_text_px(cx,cy - 40, "GAME OVER", "#ff4040", 40,)
+            self.display.draw_text_px(cx,cy + 10, "Score: {}".format(self.score),"#ffffff",24, center=True)
+            self.display.draw_text_px(cx,cy + 45, "Press R to restart", "#aaaaaa", 18, center=True)
     def on_action(self, action):
         if action in ACTION_DIR:
             self.snake.set_direction(ACTION_DIR[action])
