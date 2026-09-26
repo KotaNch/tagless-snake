@@ -20,3 +20,12 @@ class Snake:
         self.body.insert(0, new_head)
         if not grow:
             self.body.pop()
+
+    def hits_wall(self, width, height):
+        hx, hy = self.body[0]
+        return hx < 0 or hy < 0 or hx >= width or hy >=height
+
+    def hits_self(self):
+        return self.body[0] in self.body[1:]
+
+
