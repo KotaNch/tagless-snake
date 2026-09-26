@@ -20,6 +20,7 @@ class Game:
         self.snake =Snake(self.width // 2, self.height//2)
         self.spawn_food()
         self.running = True
+        self.score = 0
 
     def draw(self):
         self.display.clear()
@@ -43,6 +44,7 @@ class Game:
             fx,fy = self.food
             self.display.draw_cell(fx,fy, "circle", "#ff4040")
         self.display.render()
+        self.display.draw_text_px(10,8, "Score: {}".format(self.score), "#ffffff",18)
     def on_action(self, action):
         if action in ACTION_DIR:
             self.snake.set_direction(ACTION_DIR[action])
@@ -59,6 +61,7 @@ class Game:
         if next_head == self.food:
             self.snake.step(grow=True)
             self.spawn_food()
+            self.score += 1
         else:
             self.snake.step()
         if self.snake.hits_wall(self.width, self.height) or self.snake.hits_self():
