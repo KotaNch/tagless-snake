@@ -33,6 +33,7 @@ class Game:
             timer.clear_interval(self.timer_id)
             print("game over")
             return
+        self.draw()
     def start(self, interval=150):
         self.draw()
         self.timer_id = timer.set_interval(self.tick, interval)
