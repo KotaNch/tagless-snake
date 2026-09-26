@@ -123,7 +123,7 @@ class Display:
     def draw_text_px(self, px,py, text, color, size=16, center=False):
         self.ctx.fillStyle = color
         self.ctx.font = "{}px monospace".format(size)
-        self.ctx.textBaseline = "top"
+        self.ctx.textBaseline = "middle" if center else "top"
         self.ctx.textAlign = "center" if center else "left"
         self.ctx.fillText(text,px,py)
 

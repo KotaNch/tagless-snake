@@ -14,6 +14,7 @@ class Game:
         self.width = display.cols
         self.height = display.rows
         self.rng = make_rng(hash_seed("snake"))
+        self.high_score = 0
         self.reset()
 
     def reset(self):
@@ -44,15 +45,16 @@ class Game:
             fx,fy = self.food
             self.display.draw_cell(fx,fy, "circle", "#ff4040")
         self.display.render()
-        self.display.draw_text_px(10,8, "Score: {}".format(self.score), "#ffffff",18)
+        self.display.draw_text_px(10,8, "Score: {}".format(self.score), "#ffffff",24)
 
         if not self.running:
             cx = self.display.canvas.width /2
             cy = self.display.canvas.height /2
             self.display.draw_overlay("rgba(0,0,0,0.6)")
-            self.display.draw_text_px(cx,cy - 40, "GAME OVER", "#ff4040", 40,)
-            self.display.draw_text_px(cx,cy + 10, "Score: {}".format(self.score),"#ffffff",24, center=True)
-            self.display.draw_text_px(cx,cy + 45, "Press R to restart", "#aaaaaa", 18, center=True)
+            self.display.draw_text_px(cx,cy - 40, "GAME OVER", "#ff4040", 40,center=True)
+            self.display.draw_text_px(cx,cy + 5, "Score: {}".format(self.score),"#ffffff",24, center=True)
+            self.display.draw_text_px(cx, cy +35, "Best: {}".format(self.high_score), "#e0c040", 20, center=True)
+            self.display.draw_text_px(cx,cy + 70, "Press R to restart", "#aaaaaa", 18, center=True)
     def on_action(self, action):
         if action in ACTION_DIR:
             self.snake.set_direction(ACTION_DIR[action])
@@ -73,11 +75,14 @@ class Game:
         else:
             self.snake.step()
         if self.snake.hits_wall(self.width, self.height) or self.snake.hits_self():
-            self.running = False 
+            self.running = False
+            if self.score > self.high_score:
+                self.high_score = self.score
             self.draw()
             print("game over")
             return
         self.draw()
+
 
     def start(self, interval=150):
         self.draw()
