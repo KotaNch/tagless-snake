@@ -1,5 +1,6 @@
 from browser import timer 
 from rng import make_rng, hash_seed, rand_int
+from snake import Snake
 
 ACTION_DIR = {
     "move_n": (0, -1),
@@ -8,14 +9,17 @@ ACTION_DIR = {
     "move_e":(1,0),
 }
 class Game:
-    def __init__(self,display,snake):
+    def __init__(self,display):
         self.display = display
-        self.snake = snake
         self.width = display.cols
         self.height = display.rows
         self.rng = make_rng(hash_seed("snake"))
-        self.food = None 
+        self.reset()
+
+    def reset(self):
+        self.snake =Snake(self.width // 2, self.height//2)
         self.spawn_food()
+        self.running = True
 
     def draw(self):
         self.display.clear()
@@ -34,8 +38,12 @@ class Game:
     def on_action(self, action):
         if action in ACTION_DIR:
             self.snake.set_direction(ACTION_DIR[action])
+        if action == "restart":
+            self.reset()
 
     def tick(self):
+        if not self.running:
+            return
         hx, hy = self.snake.head()
         dx,dy = self.snake.direction
         next_head = (hx + dx, hy + dy)
@@ -46,7 +54,8 @@ class Game:
         else:
             self.snake.step()
         if self.snake.hits_wall(self.width, self.height) or self.snake.hits_self():
-            timer.clear_interval(self.timer_id)
+            self.running = False 
+            self.draw()
             print("game over")
             return
         self.draw()

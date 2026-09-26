@@ -9,6 +9,7 @@ KEYMAP = {
     "s":"move_s",
     "a":"move_w",
     "d":"move_e",
+    "r":"restart",
     " ":"wait",
     ".":"wait",
 
