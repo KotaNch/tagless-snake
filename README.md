@@ -13,11 +13,7 @@ The entire UI is drawn on a canvas via `document.createElement`, no `<div></div>
 ## Run locally
 
 ```bash
-```bash
 python -m http.server
 ```
-```
-```
 
-```
 Then open `localhost:8080`
