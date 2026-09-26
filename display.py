@@ -1,7 +1,6 @@
 from browser import document, window
 import math
 
-print("dpr:", window.devicePixelRatio)
 def shape_block(ctx,px,py,w,h,color):
     ctx.fillStyle =color
     ctx.fillRect(px,py,w,h)
@@ -59,20 +58,17 @@ class Display:
         self.bg =bg
         self.fg = fg
         
-        dpr = window.devicePixelRatio or 1
+        dpr = max(window.devicePixelRatio or 1,1)
         css_w = cols * cell_w
         css_h = rows * cell_h
 
         self.canvas = document.createElement("canvas")
-        self.canvas.width = int(css_w * dpr)
-        self.canvas.height = int(css_h * dpr)
+        self.canvas.setAttribute("width", str(css_w))
+        self.canvas.setAttribute("height", str(css_h))
         self.canvas.style.width = "{}px".format(css_w)
         self.canvas.style.height = "{}px".format(css_h)
         self.ctx = self.canvas.getContext("2d")
-        self.ctx.scale(dpr,dpr)
         self.canvas.style.background = bg
-        self.canvas.style.imageRendering = "pixelated"
-        self.ctx.imageSmoothingEnabled = False
 
         body = document.body
         body.style.margin = "0"
@@ -80,7 +76,12 @@ class Display:
         body.style.display = "grid"
         body.style.placeItems = "center"
         body.style.minHeight = "100vh"
+        while document.body.firstChild:
+            document.body.removeChild(document.body.firstChild)
         document.body.appendChild(self.canvas)
+
+
+
 
 
         self.buffer = []
