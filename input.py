@@ -2,11 +2,11 @@ from browser import document
 
 KEYMAP = {
     "ArrowUp": "move_n",
-    "ArrowDown": "nove_s",
+    "ArrowDown": "move_s",
     "ArrowLeft": "move_w",
     "ArrowRight": "move_e",
-    "w":"move_s",
-    "s":"move_n",
+    "w":"move_n",
+    "s":"move_s",
     "a":"move_w",
     "d":"move_e",
     " ":"wait",
