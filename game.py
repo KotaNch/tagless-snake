@@ -24,6 +24,14 @@ class Game:
     def draw(self):
         self.display.clear()
         body = self.snake.body
+        for x in range(self.width):
+            self.display.draw_cell(x,0,"block", "#444450")
+            self.display.draw_cell(x, self.height-1, "block", "#444450")
+
+        for y in range(self.height):
+            self.display.draw_cell(0,y,"block", "#444450")
+            self.display.draw_cell(self.width-1,y, "block", "#444450")
+
         for i in range(len(body)):
             x,y = body[i]
             if i == 0:
@@ -67,8 +75,8 @@ class Game:
 
     def spawn_food(self):
         while True:
-            x = rand_int(self.rng,0,self.width-1)
-            y = rand_int(self.rng,0, self.height-1)
+            x = rand_int(self.rng,1,self.width-2)
+            y = rand_int(self.rng,1, self.height-2)
             if (x,y) not in self.snake.body:
                 self.food = (x,y)
                 return

@@ -23,7 +23,7 @@ class Snake:
 
     def hits_wall(self, width, height):
         hx, hy = self.body[0]
-        return hx < 0 or hy < 0 or hx >= width or hy >=height
+        return hx <= 0 or hy <= 0 or hx >= width-1 or hy >=height-1
 
     def hits_self(self):
         return self.body[0] in self.body[1:]
